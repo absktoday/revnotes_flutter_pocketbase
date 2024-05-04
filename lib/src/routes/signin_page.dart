@@ -1,6 +1,8 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:revnotes_flutter_pocketbase/src/services/pocketbase_service.dart';
 import 'package:revnotes_flutter_pocketbase/src/widgets/common/terms_and_policy_footer.dart';
 
 class SignInPage extends StatefulWidget {
@@ -14,7 +16,26 @@ class _SignInPageState extends State<SignInPage> {
   // password visible state
   bool _isObscure = true;
 
+  // Form state vars
   final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  _submitSignInForm() {
+    // Validate returns true if the form is valid, or false otherwise.
+    if (_formKey.currentState!.validate()) {
+      // If the form is valid, display a snackbar. In the real world,
+      // you'd often call a server or save the information in a database.
+
+      PB.signIn(_emailController.text, _passwordController.text);
+
+      _formKey.currentState!.reset();
+
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('Processing Data')),
+      // );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +66,14 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                     const SizedBox(height: 4),
                     TextFormField(
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value == null || !EmailValidator.validate(value)) {
+                          return 'Please enter your email';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         hintText: 'john.doe@example.com',
@@ -58,14 +87,14 @@ class _SignInPageState extends State<SignInPage> {
                                   .colorScheme
                                   .onSecondary), // Set border color here
                         ),
+                        focusedBorder: OutlineInputBorder(
+                          // Set border radius here
+                          borderSide: BorderSide(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary), // Set border color here
+                        ),
                       ),
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your email';
-                        }
-                        return null;
-                      },
                     ),
                     const SizedBox(height: 20),
                     // Password Field
@@ -74,8 +103,18 @@ class _SignInPageState extends State<SignInPage> {
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     const SizedBox(height: 4),
-                    TextField(
+                    TextFormField(
+                      controller: _passwordController,
                       obscureText: _isObscure,
+                      onFieldSubmitted: (_) {
+                        _submitSignInForm();
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your password';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         hintText: "Password",
@@ -88,6 +127,13 @@ class _SignInPageState extends State<SignInPage> {
                               color: Theme.of(context)
                                   .colorScheme
                                   .onSecondary), // Set border color here
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          // Set border radius here
+                          borderSide: BorderSide(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary), // Set border color here
                         ),
                         suffixIcon: IconButton(
                           icon: Icon(_isObscure
@@ -104,17 +150,7 @@ class _SignInPageState extends State<SignInPage> {
                     const SizedBox(height: 20),
                     // Submit Button
                     ElevatedButton(
-                      onPressed: () {
-                        // Validate returns true if the form is valid, or false otherwise.
-                        if (_formKey.currentState!.validate()) {
-                          // If the form is valid, display a snackbar. In the real world,
-                          // you'd often call a server or save the information in a database.
-
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Processing Data')),
-                          );
-                        }
-                      },
+                      onPressed: _submitSignInForm,
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size.fromHeight(1),
                         foregroundColor:
