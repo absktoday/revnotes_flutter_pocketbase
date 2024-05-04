@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:revnotes_flutter_pocketbase/src/landing.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:revnotes_flutter_pocketbase/src/config/go_router_config.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,17 +11,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'RevNotes',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.brown, brightness: Brightness.dark),
+            seedColor: Colors.blue, brightness: Brightness.dark),
         useMaterial3: true,
-        // textTheme: GoogleFonts.interTextTheme(TextTheme(
-
-        // )),
+        textTheme: GoogleFonts.figtreeTextTheme(
+          Theme.of(context).primaryTextTheme,
+        ),
       ),
-      home: const Landing(),
+      routerConfig: GoRouterConfig.router,
     );
   }
 }
