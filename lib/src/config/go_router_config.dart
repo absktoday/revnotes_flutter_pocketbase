@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
-import 'package:revnotes_flutter_pocketbase/src/routes/landing_page.dart';
-import 'package:revnotes_flutter_pocketbase/src/routes/register_page.dart';
-import 'package:revnotes_flutter_pocketbase/src/routes/signin_page.dart';
+import 'package:revnotes_flutter_pocketbase/src/pages/landing_page.dart';
+import 'package:revnotes_flutter_pocketbase/src/pages/register_page.dart';
+import 'package:revnotes_flutter_pocketbase/src/pages/signin_page.dart';
 
 // GoRouter configuration
 class GoRouterConfig {
