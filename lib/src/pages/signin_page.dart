@@ -1,18 +1,20 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:revnotes_flutter_pocketbase/src/providers/providers.dart';
 import 'package:revnotes_flutter_pocketbase/src/services/pocketbase_service.dart';
 import 'package:revnotes_flutter_pocketbase/src/widgets/common/terms_and_policy_footer.dart';
 
-class SignInPage extends StatefulWidget {
+class SignInPage extends ConsumerStatefulWidget {
   const SignInPage({super.key});
 
   @override
-  State<SignInPage> createState() => _SignInPageState();
+  SignInPageState createState() => SignInPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class SignInPageState extends ConsumerState<SignInPage> {
   // password visible state
   bool _isObscure = true;
 
@@ -27,7 +29,9 @@ class _SignInPageState extends State<SignInPage> {
       // If the form is valid, display a snackbar. In the real world,
       // you'd often call a server or save the information in a database.
 
-      PB.signIn(_emailController.text, _passwordController.text);
+      // PB.signIn(_emailController.text, _passwordController.text);
+
+      ref.read(authProvider.notifier).signIn();
 
       _formKey.currentState!.reset();
 
