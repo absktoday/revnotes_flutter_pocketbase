@@ -9,13 +9,11 @@ class AuthController with ChangeNotifier {
   bool isLoggedIn = false;
   bool isValid = false;
 
-  void signIn() async {
+  void signIn(String username, String password) async {
     isLoggedIn = true;
 
     try {
-      await pb
-          .collection('users')
-          .authWithPassword('pb@absk.io', 'qu4QQ6euXfphoLSFU3puLP');
+      await pb.collection('users').authWithPassword(username, password);
     } on ClientException catch (e) {
       print("Sign In Error: $e");
     }
@@ -48,7 +46,11 @@ class AuthController with ChangeNotifier {
       notifyListeners();
     });
 
-    isValid = pb.authStore.isValid;
+    if (pb.authStore.isValid) {
+      print('Already Logged In Refreshing Auth');
+      isValid = pb.authStore.isValid;
+      await pb.collection('users').authRefresh();
+    }
     notifyListeners();
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:revnotes_flutter_pocketbase/src/pages/home_page.dart';
+import 'package:revnotes_flutter_pocketbase/src/pages/dashboard_page.dart';
 import 'package:revnotes_flutter_pocketbase/src/pages/landing_page.dart';
 import 'package:revnotes_flutter_pocketbase/src/pages/login_page.dart';
 import 'package:revnotes_flutter_pocketbase/src/pages/signin_page.dart';
@@ -46,7 +46,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/${AppRoute.dashboard.name}',
         name: AppRoute.dashboard.name,
         builder: (context, state) {
-          return const HomePage();
+          return const DashboardPage();
         },
       ),
     ],

@@ -2,19 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:revnotes_flutter_pocketbase/src/providers/providers.dart';
 
-class HomePage extends ConsumerWidget {
-  const HomePage({super.key});
+class DashboardPage extends ConsumerStatefulWidget {
+  const DashboardPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends ConsumerState<DashboardPage> {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Your App Name")),
+      appBar: AppBar(
+        title: const Text("RevNotes"),
+        actions: [
+          ElevatedButton(onPressed: () {}, child: const Text('Sign Out'))
+        ],
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text("Home Page"),
+            const Text("Dashboard"),
             ElevatedButton(
               onPressed: () async {
                 ref.read(authProvider.notifier).signOut();

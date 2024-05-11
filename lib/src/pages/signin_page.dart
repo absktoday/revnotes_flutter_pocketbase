@@ -4,17 +4,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:revnotes_flutter_pocketbase/src/providers/providers.dart';
-import 'package:revnotes_flutter_pocketbase/src/services/pocketbase_service.dart';
 import 'package:revnotes_flutter_pocketbase/src/widgets/common/terms_and_policy_footer.dart';
 
 class SignInPage extends ConsumerStatefulWidget {
   const SignInPage({super.key});
 
   @override
-  SignInPageState createState() => SignInPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SignInPageState();
 }
 
-class SignInPageState extends ConsumerState<SignInPage> {
+class _SignInPageState extends ConsumerState<SignInPage> {
   // password visible state
   bool _isObscure = true;
 
@@ -31,7 +30,9 @@ class SignInPageState extends ConsumerState<SignInPage> {
 
       // PB.signIn(_emailController.text, _passwordController.text);
 
-      ref.read(authProvider.notifier).signIn();
+      ref
+          .read(authProvider.notifier)
+          .signIn(_emailController.text, _passwordController.text);
 
       _formKey.currentState!.reset();
 

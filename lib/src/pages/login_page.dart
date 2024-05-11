@@ -17,7 +17,7 @@ class LoginPage extends ConsumerWidget {
             const Text("Login Page"),
             ElevatedButton(
               onPressed: () async {
-                ref.read(authProvider.notifier).signIn();
+                // ref.read(authProvider.notifier).signIn();
               },
               child: const Text("Login"),
             ),
